@@ -1,0 +1,31 @@
+{
+  "name": "svg2png-loader",
+  "version": "0.1.0",
+  "description": "A webpack loader for creating svg icon image fallbacks. Uses svg2png.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wjagodfrey/svg-fallback-loader.git"
+  },
+  "keywords": [
+    "svg",
+    "fallback",
+    "loader",
+    "webpack",
+    "icon",
+    "svg2png",
+    "png"
+  ],
+  "author": "Wilfred Godfrey <wjagodfrey@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wjagodfrey/svg-fallback-loader/issues"
+  },
+  "homepage": "https://github.com/wjagodfrey/svg-fallback-loader#readme",
+  "dependencies": {
+    "svg2png": "^3.0.0"
+  }
+}
