@@ -94,3 +94,4 @@ This is then passed to a react component that handles which injects icons by nam
 
 * Add tests
 * Prevent icon name/path collisions
+* Propbably output CSS instead
