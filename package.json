@@ -1,6 +1,6 @@
 {
   "name": "svg-fallback-loader",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A webpack loader for creating svg image fallbacks. Uses svg2png.",
   "main": "index.js",
   "scripts": {
