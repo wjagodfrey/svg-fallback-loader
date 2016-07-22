@@ -10,6 +10,7 @@ const deepAssign  = require('deep-assign');
 
 module.exports = function(source) {
   this.cacheable(true);
+  let callback = this.async();
 
   let query = loaderUtils.parseQuery(this.query);
   var configKey = query.configKey || 'svgFallbackLoader';
@@ -41,8 +42,6 @@ module.exports = function(source) {
 
   let svgSize = sizeOf(svgResourcePath);
 
-  console.log(svgName, svgSize);
-
   // perform conversions
   fs.readFile(svgResourcePath)
     .then(mkdirp(path.dirname(retinaPath)))
@@ -50,12 +49,12 @@ module.exports = function(source) {
     .then(mkdirp(path.dirname(svgPath)))
     .then((svgBuffer) => {
       return Promise.all([
-        // retina conversion
-        svg2png(svgBuffer, {
-          width: (svgSize.width * 2),
-          height: (svgSize.height * 2)
-        })
-          .then(buffer => fs.writeFile(retinaPath, buffer)),
+        // // retina conversion
+        // svg2png(svgBuffer, {
+        //   width: (svgSize.width * 2),
+        //   height: (svgSize.height * 2)
+        // })
+        //   .then(buffer => fs.writeFile(retinaPath, buffer)),
         // fallback conversion
         svg2png(svgBuffer, {
           width: svgSize.width,
@@ -67,15 +66,18 @@ module.exports = function(source) {
     // copy svgs across
     .then(fs.copy(svgResourcePath, svgPath))
     .catch((e) => {
-      throw new Error(e);
+      console.error(`svg-fallback-loader: ${svgName}`, e);
+      return callback(e);
+    })
+    .then(() => {
+      let result = `module.exports = {
+        name: '${svgName}',
+        retina: '${retinaPath}',
+        fallback: '${fallbackPath}',
+        svg: '${svgPath}',
+      };`;
+
+      console.log(`svg-fallback-loader: ${svgName} DONE.`);
+      return callback(null, result);
     });
-
-  let result = `module.exports = {
-    name: '${svgName}',
-    retina: '${retinaPath}',
-    fallback: '${fallbackPath}',
-    svg: '${svgPath}',
-  };`;
-
-  return result;
 };
